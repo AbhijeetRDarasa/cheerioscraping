@@ -1,10 +1,11 @@
-
+require('dotenv').config();
 const {scrapeData , scrapeData3 ,scrapeData2} = require('../service/siteScraper')
 const { TEXT, XS} = require('../constants/constants')
 const TelegramBot = require('node-telegram-bot-api');
-const token = "6451873393:AAGO9cdNgpbOB-_KfpbknOn0MRdYBsOnQgk"
 
-const bot = new TelegramBot(token, {polling: true});
+
+console.log(process.env.TELEBOT_TOKEN)
+const bot = new TelegramBot(process.env.TELEBOT_TOKEN, {polling: true});
 
 bot.on('message', async (msg) => {
   console.log("you are here !!!")

@@ -1,5 +1,8 @@
 const cheerio = require("cheerio");
 const fs = require("fs");
+require('dotenv').config();
+const {XSMB_URL, XSMN_URL, XSMT_URL} = process.env
+
 
 const Humanoid = require("humanoid-js");
 
@@ -12,7 +15,7 @@ const scrapeData = async () => {
     let data = "";
 
     data = await humanoid.get(
-      "https://xoso.com.vn/xo-so-mien-bac/xsmb-p1.html"
+     XSMB_URL
     );
 
     data = JSON.stringify(data.body); // Print the result
@@ -97,7 +100,7 @@ const scrapeData = async () => {
 
 const scrapeData2 = async () => {
   try {
-    const urltemp = "https://xoso.com.vn/xo-so-mien-nam/xsmn-p1.html";
+    const urltemp = XSMN_URL;
 
     let data = "";
     data = await humanoid.get(urltemp);
@@ -114,10 +117,10 @@ const scrapeData2 = async () => {
     let date = "";
     let date2 = "";
     let name2 = "";
-    name = $(sitelink1[1]).find("a")[1];
-    date = $(sitelink1[1]).find("a")[2];
-    name2 = $(sitelink1[2]).find("a")[0];
-    date2 = $(sitelink1[2]).find("a")[1];
+    name = $(sitelink1[0]).find("a")[1];
+    date = $(sitelink1[0]).find("a")[2];
+    name2 = $(sitelink1[1]).find("a")[1];
+    date2 = $(sitelink1[1]).find("a")[2];
     name = $(name).text().replace("XSMN", "").trim();
     date = $(date).text().replace("XSMN", "");
     name2 = $(name2).text().replace("XSMN", "").trim();
@@ -233,11 +236,12 @@ const scrapeData2 = async () => {
 
 const scrapeData3 = async () => {
   try {
-    const urltemp = "https://xoso.com.vn/xo-so-mien-trung/xsmt-p1.html";
+    const urltemp = process.env.XSMT_URL;
     let data = "";
     data = await humanoid.get(urltemp);
 
     data = JSON.stringify(data.body); // Print the result
+    console.log("data >>>>>>",data);
     const $ = cheerio.load(data);
 
     let mainheading = "Xổ số Miền Trung ngày";
@@ -279,6 +283,7 @@ const scrapeData3 = async () => {
 
     const listItemsdata = $(".section-content table tbody tr");
 
+    console.log("listItemsdata", $(listItemsdata).text())
     const rows = [];
     const thText = [];
 
